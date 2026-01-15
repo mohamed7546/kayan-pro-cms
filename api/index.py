@@ -63,6 +63,8 @@ async def login(request: Request):
 
 # ==================== HEALTH CHECK ====================
 
+# ==================== HEALTH CHECK ====================
+
 @app.get("/api/health")
 async def health_check():
     return {
@@ -71,6 +73,40 @@ async def health_check():
         "version": "2.0.0",
         "timestamp": datetime.now().isoformat()
     }
+
+# ==================== SEED DATA (Temporary) ====================
+@app.get("/api/seed")
+async def seed_database():
+    """Seed initial content for Homepage and Calculator"""
+    try:
+        # 1. Home Page
+        home_html = """
+        <div id="i7mm" class="gjs-row" style="height: 100vh; background: #1a1a1a; color: gold; display: flex; align-items: center; justify-content: center; text-align: center; font-family: 'Cairo', sans-serif;">
+            <div id="im5l" class="gjs-cell">
+                <h1 id="ix6t" style="font-size: 3rem; margin-bottom: 20px;">كيان برو - Kayan Pro</h1>
+                <div id="iz1k" style="font-size: 1.5rem; margin-bottom: 30px;">استثمارك العقاري الأمثل في المملكة</div>
+                <a id="il5v" href="/calculator" style="padding: 15px 30px; background: #c6a87c; color: #000; text-decoration: none; border-radius: 5px; font-weight: bold;">احسب استثمارك الآن</a>
+            </div>
+        </div>
+        """
+        await db.save_page({
+            "slug": "home",
+            "title": "الرئيسية - كيان برو",
+            "content": {"html": home_html, "css": "* { box-sizing: border-box; } body { margin: 0; background: #000; }"},
+            "is_published": True
+        })
+        
+        # 2. Calculator Page
+        await db.save_page({
+            "slug": "calculator",
+            "title": "حاسبة الاستثمار",
+            "content": {"html": "<div id='calculator-app'>Loading Calculator...</div>", "css": ""},
+            "is_published": True
+        })
+        
+        return {"status": "success", "message": "Database seeded successfully!"}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
 
 # ==================== PROJECTS ====================
 
