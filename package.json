@@ -1,0 +1,22 @@
+{
+    "name": "kayan-pro-cms",
+    "version": "2.0.0",
+    "description": "Advanced Real Estate CMS with Visual Editor",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "grapesjs": "^0.21.7",
+        "grapesjs-blocks-basic": "^1.0.2",
+        "grapesjs-preset-webpage": "^1.0.3",
+        "grapesjs-plugin-forms": "^2.0.6",
+        "@supabase/supabase-js": "^2.39.3",
+        "socket.io-client": "^4.6.1",
+        "chart.js": "^4.4.1"
+    },
+    "devDependencies": {
+        "vite": "^5.0.12"
+    }
+}

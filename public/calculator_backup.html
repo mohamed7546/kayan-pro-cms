@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة التمويل العقاري | كيان برو</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Outfit:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .calc-container {
+            max-width: 800px;
+            margin: 60px auto;
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .calc-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .result-box {
+            background: linear-gradient(135deg, var(--accent) 0%, #b59b58 100%);
+            color: #111;
+            padding: 30px;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 10px 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .range-slider {
+            width: 100%;
+            margin-top: 10px;
+            accent-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header style="padding: 20px; text-align: center; border-bottom: 1px solid var(--card-border);">
+        <h1 style="color: var(--accent);">Kayan Pro</h1>
+    </header>
+
+    <div class="container calc-container">
+        <div class="glass-card" style="padding: 40px;">
+            <h2 style="margin-bottom: 10px;">حاسبة الاستثمار العقاري</h2>
+            <p style="color: #888;">احسب دفعاتك الشهرية والعائد المتوقع على الاستثمار (ROI)</p>
+
+            <div class="calc-grid">
+                <!-- Inputs -->
+                <div>
+                    <div class="input-group">
+                        <label>سعر الوحدة (EGP)</label>
+                        <input type="number" id="price" value="2000000" oninput="calculate()">
+                    </div>
+
+                    <div class="input-group">
+                        <label>المقدم (%) <span id="downPaymentLabel">20%</span></label>
+                        <input type="range" class="range-slider" min="10" max="80" value="20" id="downPayment"
+                            oninput="calculate()">
+                    </div>
+
+                    <div class="input-group">
+                        <label>مدة التقسيط (سنوات) <span id="yearsLabel">5</span></label>
+                        <input type="range" class="range-slider" min="1" max="10" value="5" id="years"
+                            oninput="calculate()">
+                    </div>
+
+                    <div class="input-group">
+                        <label>سعر المتر المتوقع بعد سنة</label>
+                        <input type="number" value="25000" disabled style="opacity: 0.5;">
+                        <small style="color: var(--accent);">* بناءً على تحليل الذكاء الاصطناعي للسوق</small>
+                    </div>
+                </div>
+
+                <!-- Results -->
+                <div>
+                    <div class="result-box">
+                        <span>القسط الشهري</span>
+                        <div class="result-value" id="monthlyPayment">0</div>
+                        <span style="font-size: 0.9rem;">جنيه مصري</span>
+                    </div>
+
+                    <div
+                        style="margin-top: 20px; padding: 20px; border: 1px solid var(--card-border); border-radius: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span>قيمة المقدم:</span>
+                            <span id="downPaymentValue" style="color: var(--accent);">0</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span>إجمالي الفائدة:</span>
+                            <span>0% (بدون فوائد)</span>
+                        </div>
+                        <div
+                            style="display: flex; justify-content: space-between; border-top: 1px solid #333; padding-top: 10px;">
+                            <span>العائد الاستثماري المتوقع:</span>
+                            <span style="color: #2ed573;">+18% سنوي</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; text-align: center;">
+                <a href="projects.html" class="btn-primary">تصفح الوحدات المناسبة لميزانيتك</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const price = document.getElementById('price').value;
+            const dpPercent = document.getElementById('downPayment').value;
+            const years = document.getElementById('years').value;
+
+            // Update Labels
+            document.getElementById('downPaymentLabel').innerText = dpPercent + '%';
+            document.getElementById('yearsLabel').innerText = years + ' سنوات';
+
+            // Calc Logic
+            const dpValue = price * (dpPercent / 100);
+            const remainder = price - dpValue;
+            const months = years * 12;
+            const monthly = remainder / months;
+
+            // Update UI
+            document.getElementById('downPaymentValue').innerText = parseInt(dpValue).toLocaleString() + ' EGP';
+            document.getElementById('monthlyPayment').innerText = parseInt(monthly).toLocaleString();
+        }
+
+        // Init
+        calculate();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كيان برو - لوحة التحكم</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Outfit:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>🏢 Kayan Pro</h2>
+                <p>Admin Panel</p>
+            </div>
+            <nav class="nav-menu">
+                <a href="#dashboard" class="nav-item active" data-page="dashboard">
+                    <span class="icon">📊</span>
+                    <span>لوحة التحكم</span>
+                </a>
+                <a href="#editor" class="nav-item" data-page="editor">
+                    <span class="icon">✏️</span>
+                    <span>محرر الصفحات</span>
+                </a>
+                <a href="#units" class="nav-item" data-page="units">
+                    <span class="icon">🏢</span>
+                    <span>الوحدات</span>
+                </a>
+                <a href="#media" class="nav-item" data-page="media">
+                    <span class="icon">🖼️</span>
+                    <span>المكتبة</span>
+                </a>
+                <a href="#chats" class="nav-item" data-page="chats">
+                    <span class="icon">💬</span>
+                    <span>المحادثات</span>
+                </a>
+                <a href="#settings" class="nav-item" data-page="settings">
+                    <span class="icon">⚙️</span>
+                    <span>الإعدادات</span>
+                </a>
+            </nav>
+            <div class="user-info">
+                <div class="avatar">👤</div>
+                <div class="user-details">
+                    <p class="user-name">Admin</p>
+                    <button class="logout-btn" onclick="logout()">🚪 تسجيل الخروج</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <div id="page-dashboard" class="page active">
+                <header class="page-header">
+                    <h1>مرحباً بك! 👋</h1>
+                    <p>إليك ملخص أداء اليوم</p>
+                </header>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-content">
+                            <p class="stat-label">إجمالي المبيعات</p>
+                            <h3 class="stat-value" id="total-revenue">250,000 SAR</h3>
+                            <span class="stat-change positive">+15% عن الشهر الماضي</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-content">
+                            <p class="stat-label">العملاء الجدد</p>
+                            <h3 class="stat-value" id="new-leads">1,245</h3>
+                            <span class="stat-change positive">+50 هذا الأسبوع</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🏢</div>
+                        <div class="stat-content">
+                            <p class="stat-label">الوحدات المتاحة</p>
+                            <h3 class="stat-value" id="available-units">348</h3>
+                            <span class="stat-change">من إجمالي 500</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💬</div>
+                        <div class="stat-content">
+                            <p class="stat-label">المحادثات النشطة</p>
+                            <h3 class="stat-value" id="active-chats">12</h3>
+                            <span class="stat-change">في الوقت الحالي</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dual Chat Panels -->
+                <div class="chat-panels">
+                    <!-- Telegram Chat -->
+                    <div class="chat-panel">
+                        <div class="chat-header">
+                            <h3>💬 محادثات تليجرام</h3>
+                            <span class="badge">3 جديدة</span>
+                        </div>
+                        <div class="chat-list" id="telegram-chats">
+                            <!-- Will be populated by JS -->
+                        </div>
+                        <div class="chat-messages" id="telegram-messages">
+                            <div class="empty-state">اختر محادثة لعرضها</div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" placeholder="اكتب رسالتك..." id="telegram-input">
+                            <button onclick="sendTelegramMessage()">📤</button>
+                        </div>
+                    </div>
+
+                    <!-- Website Chat -->
+                    <div class="chat-panel">
+                        <div class="chat-header">
+                            <h3>💬 محادثات الموقع</h3>
+                            <span class="badge">2 جديدة</span>
+                        </div>
+                        <div class="chat-list" id="website-chats">
+                            <!-- Will be populated by JS -->
+                        </div>
+                        <div class="chat-messages" id="website-messages">
+                            <div class="empty-state">اختر محادثة لعرضها</div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" placeholder="اكتب رسالتك..." id="website-input">
+                            <button onclick="sendWebsiteMessage()">📤</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="activity-section">
+                    <h3>سجل النشاط الأخير</h3>
+                    <div class="activity-list" id="activity-list">
+                        <!-- Will be populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Editor Page -->
+            <div id="page-editor" class="page">
+                <header class="page-header">
+                    <h1>✏️ محرر الصفحات</h1>
+                    <div class="editor-actions">
+                        <select id="page-selector">
+                            <option value="">-- اختر صفحة --</option>
+                            <option value="home">الصفحة الرئيسية</option>
+                            <option value="about">من نحن</option>
+                            <option value="projects">المشاريع</option>
+                        </select>
+                        <button class="btn-primary" onclick="savePage()">💾 حفظ</button>
+                        <button class="btn-secondary" onclick="previewPage()">👁️ معاينة</button>
+                        <button class="btn-success" onclick="publishPage()">🚀 نشر</button>
+                    </div>
+                </header>
+                <div id="gjs"></div>
+            </div>
+
+            <!-- Units Page -->
+            <div id="page-units" class="page">
+                <header class="page-header">
+                    <h1>🏢 إدارة الوحدات</h1>
+                    <button class="btn-primary" onclick="openUnitModal()">+ إضافة وحدة جديدة</button>
+                </header>
+                <div class="units-filters">
+                    <select id="project-filter">
+                        <option value="">كل المشاريع</option>
+                    </select>
+                    <select id="type-filter">
+                        <option value="">كل الأنواع</option>
+                        <option value="residential">سكني</option>
+                        <option value="commercial">إداري</option>
+                    </select>
+                    <select id="status-filter">
+                        <option value="">كل الحالات</option>
+                        <option value="available">متاح</option>
+                        <option value="reserved">محجوز</option>
+                        <option value="sold">مباع</option>
+                    </select>
+                </div>
+                <div class="units-grid" id="units-grid">
+                    <!-- Will be populated by JS -->
+                </div>
+            </div>
+
+            <!-- Media Page -->
+            <div id="page-media" class="page">
+                <header class="page-header">
+                    <h1>🖼️ مكتبة الوسائط</h1>
+                    <button class="btn-primary" onclick="openUploadModal()">📤 رفع ملفات</button>
+                </header>
+                <div class="media-grid" id="media-grid">
+                    <!-- Will be populated by JS -->
+                </div>
+            </div>
+
+            <!-- Chats Page -->
+            <div id="page-chats" class="page">
+                <header class="page-header">
+                    <h1>💬 جميع المحادثات</h1>
+                </header>
+                <div class="chats-container">
+                    <!-- Same as dashboard but full width -->
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div id="page-settings" class="page">
+                <header class="page-header">
+                    <h1>⚙️ الإعدادات</h1>
+                </header>
+                <div class="settings-form">
+                    <h3>معلومات الموقع</h3>
+                    <div class="form-group">
+                        <label>اسم الموقع</label>
+                        <input type="text" value="كيان برو">
+                    </div>
+                    <div class="form-group">
+                        <label>الوصف</label>
+                        <textarea rows="3">شركة كيان برو للتطوير العقاري</textarea>
+                    </div>
+                    <h3>روابط التواصل الاجتماعي</h3>
+                    <div class="form-group">
+                        <label>Facebook</label>
+                        <input type="url" placeholder="https://facebook.com/...">
+                    </div>
+                    <div class="form-group">
+                        <label>Instagram</label>
+                        <input type="url" placeholder="https://instagram.com/...">
+                    </div>
+                    <div class="form-group">
+                        <label>Twitter</label>
+                        <input type="url" placeholder="https://twitter.com/...">
+                    </div>
+                    <button class="btn-primary">💾 حفظ التغييرات</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="js/admin.js"></script>
+</body>
+
+</html>
