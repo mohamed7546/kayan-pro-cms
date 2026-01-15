@@ -3,17 +3,33 @@
     "builds": [
         {
             "src": "api/index.py",
-            "use": "@vercel/python"
+            "version": 2,
+            "builds": [
+                {
+                    "src": "api/index.py",
+                    "use": "@vercel/python"
+                },
+                {
+                    "src": "public/**",
+                    "use": "@vercel/static"
+                },
+                {
+                    "src": "admin/**",
+                    "use": "@vercel/static"
+                }
+            ],
+            "routes": [
+                {
+                    "src": "/api/(.*)",
+                    "dest": "/api/index.py"
+                },
+                {
+                    "src": "/admin/(.*)",
+                    "dest": "/admin/$1"
+                },
+                {
+                    "src": "/(.*)",
+                    "dest": "/public/$1"
+                }
+            ]
         }
-    ],
-    "routes": [
-        {
-            "src": "/api/(.*)",
-            "dest": "api/index.py"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/admin/$1"
-        }
-    ]
-}
