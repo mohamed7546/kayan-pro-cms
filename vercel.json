@@ -16,6 +16,10 @@
             "destination": "https://mohamed32132-kayan-pro-bot.hf.space/api/$1"
         },
         {
+            "source": "/",
+            "destination": "/public/calculator.html"
+        },
+        {
             "source": "/admin",
             "destination": "/admin/index.html"
         },
