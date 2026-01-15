@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayan Pro - جار التحميل...</title>
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="/css/unified-theme.css">
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Loading State */
+        #app-loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            color: gold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-family: 'Cairo', sans-serif;
+            z-index: 9999;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Dynamic Content Container -->
+    <div id="root">
+        <div id="app-loader">
+            <div>
+                <img src="/assets/logo.png" style="width: 100px; display: block; margin: 0 auto 20px;">
+                <p>جاري تحميل تصميم الصفحة...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Injectable CSS Container -->
+    <style id="dynamic-css"></style>
+
+    <script type="module">
+        // Client-Side Router & Renderer
+        async function loadPage() {
+            const path = window.location.pathname;
+            let slug = 'home'; // Default to home
+
+            if (path !== '/' && path !== '/index.html') {
+                // Remove leading slash
+                slug = path.substring(1);
+            }
+
+            // Handle specialized routes manually if needed
+            if (slug.startsWith('admin')) return; // Let admin handle itself via vercel.json rewrite
+            if (slug.startsWith('api')) return;
+
+            try {
+                // Fetch page design from API
+                const response = await fetch(`/api/pages/${slug}`);
+                if (!response.ok) throw new Error('Page not found');
+
+                const page_data = await response.json();
+
+                // 1. Inject HTML
+                const root = document.getElementById('root');
+                root.innerHTML = page_data.content.html;
+
+                // 2. Inject CSS
+                const style = document.getElementById('dynamic-css');
+                style.textContent = page_data.content.css;
+
+                // 3. Update Title
+                document.title = page_data.title || 'Kayan Pro';
+
+            } catch (err) {
+                console.error("Failed to load page:", err);
+                document.getElementById('root').innerHTML = `
+                    <div style="text-align:center; padding: 50px; color: #fff;">
+                        <h1>404</h1>
+                        <p>الصفحة غير موجودة.</p>
+                        <a href="/" style="color: gold;">العودة للرئيسية</a>
+                    </div>
+                `;
+            }
+        }
+
+        // Init
+        window.addEventListener('DOMContentLoaded', loadPage);
+    </script>
+</body>
+
+</html>

@@ -13,16 +13,24 @@
     "rewrites": [
         {
             "source": "/api/(.*)",
-            "destination": "https://mohamed32132-kayan-pro-bot.hf.space/api/$1"
+            "destination": "/api/index.py"
         },
         {
-            "source": "/",
+            "source": "/admin(.*)",
+            "destination": "/admin/index.html"
+        },
+        {
+            "source": "/calculator",
             "destination": "/public/calculator.html"
         },
         {
-            "source": "/admin",
-            "destination": "/admin/index.html"
+            "source": "/((?!api/|admin/|calculator|.*\\..*).*)",
+            "destination": "/public/index.html"
         },
+        {
+            "source": "/",
+            "destination": "/public/index.html"
+        }
         {
             "source": "/admin/",
             "destination": "/admin/index.html"
