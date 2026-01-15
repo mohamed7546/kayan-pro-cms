@@ -18,6 +18,10 @@ class Settings(BaseSettings):
     CLOUDINARY_CLOUD_NAME: str = os.getenv("CLOUDINARY_CLOUD_NAME", "")
     CLOUDINARY_API_KEY: str = os.getenv("CLOUDINARY_API_KEY", "")
     CLOUDINARY_API_SECRET: str = os.getenv("CLOUDINARY_API_SECRET", "")
+
+    # Legacy DB (JSONBin) - Auto-Fallback
+    JSONBIN_ID: str = os.getenv("JSONBIN_ID", "6966a8fad0ea881f4069c8df")
+    JSONBIN_KEY: str = os.getenv("JSONBIN_KEY", "$2a$10$I3My9ywZFIufic9w1dpf5ON5h4pfPTpFXg5Gt.qC4ty2rFd5ZCmsO")
     
     # Admin Panel
     ADMIN_USERNAME: str = os.getenv("ADMIN_USERNAME", "admin")
