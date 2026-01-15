@@ -1,15 +1,6 @@
 {
     "version": 2,
-    "builds": [
-        {
-            "src": "public/**",
-            "use": "@vercel/static"
-        },
-        {
-            "src": "admin/**",
-            "use": "@vercel/static"
-        }
-    ],
+    "version": 2,
     "rewrites": [
         {
             "source": "/api/(.*)",
